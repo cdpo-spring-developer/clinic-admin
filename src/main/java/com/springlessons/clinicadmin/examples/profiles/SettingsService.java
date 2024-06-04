@@ -1,4 +1,4 @@
-package com.springlessons.clinicadmin.examples;
+package com.springlessons.clinicadmin.examples.profiles;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * в properties файле, настройки объеденены префиксом inject (
  * ключи начинаются с inject).</br>
  * */
-@Profile("!no_settings")
+@Profile("default")
 @Component
 @ConfigurationProperties(prefix = "inject")
 public class SettingsService {
@@ -21,14 +21,14 @@ public class SettingsService {
      * inject.service.title.
      * Название свойства в классе не учитывается
      */
-    @Value("${service.title}")
+    @Value("${inject.service.title}")
     private String title;
     /**
      * Значение будет устанавливаться на основе ключа -
      * inject.service.number.
      * Название свойства в классе не учитывается
      */
-    @Value("${service.number}")
+    @Value("${inject.service.number}")
     private int number;
 
     /**
