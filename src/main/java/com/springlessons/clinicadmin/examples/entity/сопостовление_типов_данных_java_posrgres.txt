@@ -1,0 +1,21 @@
+Стандартные типы Java с типами Postgresql зависит от вервий библиотек
+(сопостовление актуально для текущих версий):
+byte, short - smallint
+int - integer
+long - bigint
+double - float(53)
+float - float4
+boolean - boolean
+LocalDate - date
+LocalTime - time(6)
+LocalDateTime - timestamp(6)
+ZonedDateTime - timestamp(6) with time zone
+String c length <= 255 - varchar
+String c length > 255 - text
+
+Ссылочные типы должны описываться:
+1. через аннотации связей: @ManyToOne @OneToMany @ManyToMany @OneToOne
+2. аннотации, указывающие на специальные типы в БД
+@JdbcTypeCode(SqlTypes.***) при этом тип данных в таблице
+необходимо указать через параметр columnDefinition аннотации @Column
+3. пользовательские типы
