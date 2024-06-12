@@ -34,7 +34,4 @@ public class Specialization {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
             updatable = false)
     private LocalDateTime createdAt;
-
-    @ManyToMany
-    private List<Doctor> doctors = new ArrayList<>();
 }

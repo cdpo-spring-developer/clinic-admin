@@ -13,18 +13,17 @@ import org.springframework.data.annotation.CreatedDate;
 import lombok.Getter;
 import lombok.Setter;
 
+// Хранение информации о приюте для животных
 
-// для генерации геттеров и сеттеров
+// Для генерации геттеров и сеттеров
 @Setter
 @Getter
-// Обязательная аннотация.
-// С классом будет ассоциирована таблица в БД
-//@Entity
-// Необязательная аннотация.
-// Позволяет указать имя таблицы, описать индексы
+// Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
+// @Entity
+// Необязательная аннотация, позволяющая указать имя таблицы, описать индексы
 @Table(name = "shelter")
 public class AnimalShelter extends AutoIncrementIdentity {
-    // с не transient полями класса будут ассоциированы столбцы в таблице
+    // со всеми не transient полями класса будут ассоциированы столбцы в таблице
 
     // аннотация позволяет описывать столбцы в таблице
     @Column(name = "name",// название столбца
@@ -38,13 +37,13 @@ public class AnimalShelter extends AutoIncrementIdentity {
     private String code;
 
     @Column(name = "is_active",// название столбца
-            columnDefinition = "BOOLEAN NOT NULL DEFAULT TRUE", // описание столбца на синтаксисе sql (нвсегда начинается с типа данных).
+            columnDefinition = "BOOLEAN NOT NULL DEFAULT TRUE", // описание столбца sql синтаксисом (нвсегда начинается с типа данных).
             // Можно указать тип данных, дефолтное знавение, check условия и т.п
             insertable = false) // столбец не будет фигурировать в формируемых spring data INSERT запросах
     private boolean isActive;
 
-    @CreatedDate // заполняется даной создания сущности
-    @Column(name = "created_at",// название столбца
+    @CreatedDate // заполняется датой создания сущности
+    @Column(name = "created_at", // название столбца
             updatable = false) // столбец не будет фигурировать в формируемых spring data UPDATE запросах
     private LocalDateTime createdAt;
 
@@ -54,16 +53,16 @@ public class AnimalShelter extends AutoIncrementIdentity {
             insertable = false) // столбец не будет фигурировать в формируемых spring data INSERT запросах
     private LocalDateTime updatedAt;
 
-    // Пользователь может быть зарегистрирован в нескольких приютах.
-    // В одном приюте может быть зарегистрировано несколько пользователей.
+    // Пользователь может быть зарегистрирован в нескольких приютах и
+    // в одном приюте может быть зарегистрировано несколько пользователей.
     // Связь многие ко многим всегда выражается отдельной таблицей на 2 столбца,
     // где будут хранится идентификаторы пользователей и приютов.
-    // Таблица писывается только с одной стороны
+    // Таблица описывается только с одной стороны
     // Связь является двунаправленной, так как описана со стороны
-    // класса Shelter как @ManyToMany private List<AnimalShelter> shelters;
-    // На уровне БД выражена только стольцом в таблице app_user (класс User)
-    // Список должен быть инициализирован
+    // класса User и со стороны класса AnimalShelter.
+    // Связь не обязана быть двунапрвленной, достаточно описание связь в одном классе,
+    // необходимоть определяется логикой приложения
     @ManyToMany(mappedBy = "shelters") // связь с полем shelters в классе User
-    private List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>(); // Список должен быть инициализирован
 
 }

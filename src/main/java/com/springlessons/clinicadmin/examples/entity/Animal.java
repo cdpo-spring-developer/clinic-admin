@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-//@Entity
+// @Entity // Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
 @Table(name = "animal")
 public class Animal extends AutoIncrementIdentity{
     @Column(length = 50, nullable = false)
@@ -27,24 +27,24 @@ public class Animal extends AutoIncrementIdentity{
     @Column(name = "type", nullable = false)
     private AnimalType animalType;
 
-    // Животное может быть зарегистрировано только в одном приюте
-    // В одном приюте можно зерегистрировать несколько животных
-    // На уровне БД будет создана связь - Приют - Животное,
-    // в таблице animal будет создан столбец shelter_id -
-    // внешний ключ для хранения идентификатора (@Id) Приюта
-    // Связь является однонаправленной, так как НЕ описана со стороны
-    // класса Shelter как @OneToMany private List<Animal> animals;
+    // Животное может быть зарегистрировано только в одном приюте,
+    // при этом в одном приюте можно зерегистрировать несколько животных.
+    // Связь однонаправленная, так так выражена только аннотацией @ManyToOne в классе Animal.
+    // В таблице animal будет создан столбец shelter_id - внешний ключ для хранения идентификатора (@Id) Приюта.
     @ManyToOne
-    // аннотация для описания столбца - внешнего ключа
-    @JoinColumn(name = "shelter_id", nullable = false)
+    @JoinColumn(name = "shelter_id", nullable = false) // аннотация для описания столбца - внешнего ключа
     private AnimalShelter animalShelter;
 
+    // Владелец животного. У животного может быть один владелец,
+    // у каждого владельца может быть несколько животных
+    // Связь двунаправленная, так так выражена аннотацией в обоих классах: Animal -> @ManyToOne и User -> @OneToMany
+    // Связь не обязана быть двунапрвленной, достаточно описание связи аннотацией ManyToOne,
+    // необходимоть определяется логикой приложения.
+    // На уровне БД выражается столбцом owner_id в таблице animal (класс Animal) - внешний ключ для хранения идентификатора (@Id) Пользователя
     // Если вместо ссылки на объект в коде нужен только его идентификатор
-    // в аннотации ManyToOne необходимо указать targetEntity
-    // с сылкой на связанный класс
+    // в аннотации ManyToOne необходимо указать targetEntity с сылкой на связанный класс
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    // аннотация для описания столбца - внешнего ключа
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false) // аннотация для описания столбца - внешнего ключа
     private int ownerId;
 
     public enum AnimalType {
