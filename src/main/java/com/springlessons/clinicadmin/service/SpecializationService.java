@@ -1,4 +1,4 @@
-package com.springlessons.clinicadmin.services;
+package com.springlessons.clinicadmin.service;
 
 import com.springlessons.clinicadmin.repository.SpecializationRepository;
 import org.springframework.stereotype.Service;
