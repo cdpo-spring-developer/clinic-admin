@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Управление клиникой
+  description: Управление клиникой.
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080/clinic'
+tags:
+  - name: specialization
+    description: Управление специализациями врачей
+  - name: doctor
+    description: Управление врачами
+paths:
+  /specialization:
+    post:
+      tags:
+        - specialization
+      summary: Создание новой специализации
+      description: После успешного сохранения новой специализации, кленту возвращается актуальная ссылка на неё
+      operationId: addSpecialization
+      requestBody:
+        description: JSON объект, содержащий информацию о специализации
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Specialization'
+        required: true
+      responses:
+        '201':
+          description: Добавление успешно завершено
+          headers:
+            Location:
+              description: Ссылка на созданную специализацию
+              required: true
+              allowEmptyValue: false
+              schema:
+                type: string
+              example: https://localhost:8080/clinic/specialization/1
+        '500':
+          description: Ошибка сервера
+        '422':
+          description: Ошибка валидации
+  /specialization/{specializationId}:
+    put:
+      tags:
+        - specialization
+      summary: Обновление специализации
+      description: После успешного обновления специализации, кленту возвращается ответ со статусом 200
+      parameters:
+        - name: specializationId
+          in: path
+          description: Идентификатор обновляемой специализации
+          required: true
+          schema:
+            type: integer
+            example: 1
+            minimum: 1
+            nullable: false
+      operationId: updateSpecialization
+      requestBody:
+        description: JSON объект, содержащий информацию о специализации
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Specialization'
+        required: true
+      responses:
+        200:
+          description: Обновление специализации успешно завершено
+        '500':
+          description: Ошибка сервера
+        '404':
+          description: Специализация по идентификатору на нейдена
+        '422':
+          description: Ошибка валидации
+    get:
+      tags:
+        - specialization
+      summary: Получение информации о специализации по идентификатору
+      description: Возвращает всю информацию о сцециализации
+      parameters:
+        - name: specializationId
+          in: path
+          description: Идентификатор специализации
+          required: true
+          schema:
+            type: integer
+            example: 1
+            minimum: 1
+            nullable: false
+      operationId: getSpecializationById
+      responses:
+        200:
+          description: Запрос успешно обработан, в теле возвращается информация о специализации
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Specialization'
+        '500':
+          description: Ошибка сервера
+        '404':
+          description: Специализация по идентификатору на нейдена
+        '422':
+          description: Ошибка валидации
+  /specializations:
+    get:
+      tags:
+        - specialization
+      summary: Получение информации о специализациях
+      description: Возвращает список специализаций
+      operationId: getSpecializations
+      responses:
+        200:
+          description: Запрос успешно обработан, в теле возвращается список специализаций
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpecializationWithDetails'
+        '500':
+          description: Ошибка сервера
+        '404':
+          description: Специализации не найдены
+        '422':
+          description: Ошибка валидации
+  /specializations/inactive:
+    get:
+      tags:
+        - specialization
+      summary: Получение информации о неактивных специализациях
+      description: Возвращает список неактивных специализаций
+      operationId: getInactiveSpecializations
+      responses:
+        200:
+          description: Запрос успешно обработан, в теле возвращается список специализаций
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/SpecializationWithDetails'
+        '500':
+          description: Ошибка сервера
+        '404':
+          description: Специализации не найдены
+        '422':
+          description: Ошибка валидации
+components:
+  schemas:
+    SpecializationWithDetails:
+      type: object
+      properties:
+        specialization:
+          $ref: '#/components/schemas/Specialization'
+        number_of_active_doctors:
+          description: Количество активных докторов
+          type: integer
+          example: 34
+          minimum: 0
+          nullable: false
+        number_of_inactive_doctors:
+          description: Количество неактивных докторов
+          type: integer
+          example: 3
+          minimum: 0
+          nullable: false
+    Specialization:
+      type: object
+      properties:
+        id:
+          description: Идентификатор специализации
+          type: integer
+          example: 10
+          readOnly: true
+          nullable: false
+          minimum: 1
+        name:
+          description: Наименование специализации
+          type: string
+          example: Невролог
+          nullable: false
+          minLength: 2
+          maxLength: 50
+        code:
+          description: Наименование специализации латиницей
+          type: string
+          example: neurologist
+          nullable: false
+          minLength: 2
+          maxLength: 20
+        description:
+          description: Описание специализации
+          type: string
+          example: Невролог занимается диагностикой и лечением болезней, связанных с нервной системой
+          minLength: 10
+          maxLength: 3000
+        is_active:
+          description: Специализация доступна
+          type: boolean
+          example: true
+          readOnly: false
+          nullable: false
+        created_at:
+          description: Дата создания специализации
+          type: string
+          example: 2024-10-10 12:33
+          readOnly: true
+          nullable: false
+
+
