@@ -12,6 +12,7 @@ import java.util.List;
 @Entity // Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
 @Table(name = "app_user")
 public class User extends AutoIncrementIdentity {
+
     @Column(name = "login", nullable = false, unique = true)
     private String username;
     @Column(name = "password", nullable = false)
@@ -54,4 +55,5 @@ public class User extends AutoIncrementIdentity {
     // данные, которые попадут в список храняться в таблице animal
     @OneToMany(mappedBy = "ownerId") // связь с полем ownerId в классе Animal для правильного формирования списка
     private List<Animal> animals = new ArrayList<>();
+
 }

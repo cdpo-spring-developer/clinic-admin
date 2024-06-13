@@ -4,6 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,5 @@ public class AutoIncrementIdentity {
     // В таблице будет присутствовать столбец id - первичный ключ
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    protected int id;
 }
