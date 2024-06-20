@@ -25,6 +25,11 @@ public class Doctor {
     @Column(name = "experience", nullable = false)
     private int experience;
 
+    @Column(name = "is_active",
+            columnDefinition = "BOOLEAN DEFAULT true",
+            insertable = false)
+    private boolean isActive;
+
     @ManyToMany
     @JoinTable(name = "doctor_specialization",
             joinColumns = @JoinColumn(name = "doctor_id"),

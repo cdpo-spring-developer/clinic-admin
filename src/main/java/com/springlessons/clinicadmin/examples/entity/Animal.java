@@ -1,5 +1,6 @@
 package com.springlessons.clinicadmin.examples.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,10 @@ import java.util.List;
 @Setter
 @Entity // Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
 @Table(name = "animal")
-public class Animal extends AutoIncrementIdentity{
+public class Animal /*extends AutoIncrementIdentity*/ {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
     @NotNull
     @Size(min = 2, max = 50)
     @Column(length = 50, nullable = false)
@@ -51,11 +56,9 @@ public class Animal extends AutoIncrementIdentity{
     // Связь не обязана быть двунапрвленной, достаточно описание связи аннотацией ManyToOne,
     // необходимоть определяется логикой приложения.
     // На уровне БД выражается столбцом owner_id в таблице animal (класс Animal) - внешний ключ для хранения идентификатора (@Id) Пользователя
-    // Если вместо ссылки на объект в коде нужен только его идентификатор
-    // в аннотации ManyToOne необходимо указать targetEntity с сылкой на связанный класс
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id") // аннотация для описания столбца - внешнего ключа
-    private Integer ownerId; // User owner;
+    private User ownerId;
 
     public enum AnimalType {
         DOG, CAT

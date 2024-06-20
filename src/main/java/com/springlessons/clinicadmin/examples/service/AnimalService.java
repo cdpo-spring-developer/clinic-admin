@@ -6,6 +6,7 @@ import com.springlessons.clinicadmin.examples.entity.AnimalShelter;
 import com.springlessons.clinicadmin.examples.exceptions.ShelterException;
 import com.springlessons.clinicadmin.examples.repository.AnimalRepository;
 import com.springlessons.clinicadmin.examples.repository.AnimalShelterRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 public class AnimalService {
     private final AnimalRepository animalRepository;
@@ -28,13 +28,13 @@ public class AnimalService {
 
     public int createAnimal(AnimalRequest animalRequest) throws ShelterException {
         AnimalShelter animalShelter = animalShelterRepository.findById(animalRequest.shelterId())
-                .orElseThrow(()->new ShelterException("Приют с ID " + animalRequest.shelterId() + " не найдет"));
+                .orElseThrow(() -> new ShelterException("Приют с ID " + animalRequest.shelterId() + " не найдет"));
         animalRequest.animal().setAnimalShelter(animalShelter);
         return animalRepository.save(animalRequest.animal()).getId();
     }
 
     public List<Animal> getAnimalsWithOwnersByShelterId(int shelterId) {
-        return animalRepository.findByOwnerIdIsNotNullAndAnimalShelterId(shelterId);
+        return animalRepository.getByOwnerIdIsNotNullAndAnimalShelterId(shelterId);
     }
 
     public Page<Animal> getAnimalsByShelterCode(String shelterCode, int page, int size) {
@@ -42,6 +42,7 @@ public class AnimalService {
         return animalRepository.findByAnimalShelterCode(shelterCode, pageable);
     }
 
+    // @Transactional
     public void setOwnerToAnimal(int ownerId, int animalId) throws ShelterException {
         if (animalRepository.setOwnerByAnimalId(ownerId, animalId) == 0) {
             throw new ShelterException("Животному с ID = " + animalId +
@@ -49,3 +50,13 @@ public class AnimalService {
         }
     }
 }
+
+
+// entity
+// repository
+// service
+// controller
+
+// controller - service:
+//  repository (entity),
+//  service

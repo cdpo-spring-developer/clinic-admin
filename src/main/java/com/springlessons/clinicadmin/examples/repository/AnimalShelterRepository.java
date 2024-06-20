@@ -8,9 +8,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface AnimalShelterRepository extends CrudRepository<AnimalShelter, Integer> {
+public interface AnimalShelterRepository
+        extends CrudRepository<AnimalShelter, Integer> {
+
     AnimalShelter findByCodeAndIsActiveTrue(String code);
     Optional<AnimalShelter> findByName(String name);
+
     List<AnimalShelter> findByIsActiveTrue();
     List<AnimalShelter> findByIdIn(Collection<Integer> ids);
 
@@ -19,3 +22,7 @@ public interface AnimalShelterRepository extends CrudRepository<AnimalShelter, I
             "WHERE us.user_id IS NULL AND sh.is_active = true")
     List<AnimalShelter> selectSheltersWithoutUsers();
 }
+// Repository
+// CrudRepository
+// PagingAndSortingRepository
+// JpaRepository: CrudRepository + PagingAndSortingRepository

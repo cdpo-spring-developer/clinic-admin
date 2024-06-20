@@ -19,7 +19,10 @@ import lombok.Setter;
 @Entity
 // Необязательная аннотация, позволяющая указать имя таблицы, описать индексы
 @Table(name = "shelter")
-public class AnimalShelter extends AutoIncrementIdentity {
+public class AnimalShelter /*extends AutoIncrementIdentity*/ {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
     // со всеми не transient полями класса будут ассоциированы столбцы в таблице
 
     // аннотация позволяет описывать столбцы в таблице

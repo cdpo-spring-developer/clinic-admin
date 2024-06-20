@@ -4,8 +4,10 @@ import com.springlessons.clinicadmin.examples.dto.AnimalRequest;
 import com.springlessons.clinicadmin.examples.entity.Animal;
 import com.springlessons.clinicadmin.examples.exceptions.ShelterException;
 import com.springlessons.clinicadmin.examples.service.AnimalService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class AnimalController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody AnimalRequest animal) {
+    public ResponseEntity<?> save(@Valid @RequestBody AnimalRequest animal) {
 
         try {
             return ResponseEntity
@@ -40,13 +42,16 @@ public class AnimalController {
     }
 
     @GetMapping("/shelter/{id}")
-    List<Animal> getAnimalsWithOwnersByShelterId(@PathVariable(name = "id") @Min(1) int shelterId) {
+    List<Animal> getAnimalsWithOwnersByShelterId(
+            @PathVariable(name = "id") @Min(1) int shelterId) {
         return animalService.getAnimalsWithOwnersByShelterId(shelterId);
     }
 
     @GetMapping("/shelter")
-    Page<Animal> getAnimalsByShelterCode(@RequestParam(name = "code") @Size(min = 3, max = 50) String shelterCode,
-                                         @RequestParam @Min(0) int page, @RequestParam @Min(1) int size) {
+    Page<Animal> getAnimalsByShelterCode(@RequestParam(name = "code")
+                                         @Size(min = 3, max = 50) String shelterCode,
+                                         @RequestParam @Min(0) int page,
+                                         @RequestParam @Min(1) int size) {
         return animalService.getAnimalsByShelterCode(shelterCode, page, size);
     }
 
