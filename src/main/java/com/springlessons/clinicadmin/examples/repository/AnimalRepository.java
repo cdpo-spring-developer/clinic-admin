@@ -24,17 +24,12 @@ import java.util.Optional;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.LOAD;
 
-public interface AnimalRepository extends JpaRepository<Animal, Integer> {
+public interface AnimalRepository
+        extends JpaRepository<Animal, Integer> {
 
-    // Animal:
-    // ownerId
-    // animalShelter
-
-    // AnimalShelter
-    // id
-
-
-    @Query(nativeQuery = true, value = "SELECT animal.id, animal.owner_id, animal.shelter_id, animal.name FROM animal WHERE owner_id IS NOT NULL AND shelter_id = :animalShelterId")
+    @Query(nativeQuery = true, value = "SELECT animal.id, animal.owner_id, animal.shelter_id, animal.name " +
+            "FROM animal WHERE owner_id IS NOT NULL " +
+            "AND shelter_id = :animalShelterId")
     List<Animal> getByOwnerIdIsNotNullAndAnimalShelterId(int animalShelterId);
 
     Page<Animal> findByAnimalShelterCode(String animalShelterCode,

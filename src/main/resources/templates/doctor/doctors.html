@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Врачи клиники</title>
+</head>
+<body>
+<section th:insert="~{./fragments.html :: menu(${specialization_list})}"></section>
+<div th:each="doctor: ${doctor_list}">
+    <h2 th:text="${doctor.lastName}"></h2>
+    <p th:text="${doctor.experience}"></p>
+    <a th:href="@{/doctor/{id}(id=${doctor.id})}">Подробнее</a>
+</div>
+<div th:replace="~{./fragments.html :: footer}"></div>
+</body>
+</html>

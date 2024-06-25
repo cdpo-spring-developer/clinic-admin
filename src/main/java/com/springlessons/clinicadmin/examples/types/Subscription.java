@@ -21,7 +21,7 @@ public class Subscription {
     // адрес выдачи
     @Convert(converter = AddressConverter.class)
     @Column(name = "issue_address")
-    private Address address;
+    private Address address; // issue_address: "город клуб"
 
     // тип абонемента
     @Basic

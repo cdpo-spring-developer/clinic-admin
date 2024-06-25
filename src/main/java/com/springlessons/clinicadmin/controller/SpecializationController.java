@@ -1,5 +1,6 @@
 package com.springlessons.clinicadmin.controller;
 
+import com.springlessons.clinicadmin.dto.SpecializationDtoResponse;
 import com.springlessons.clinicadmin.entity.Specialization;
 import com.springlessons.clinicadmin.service.SpecializationService;
 import jakarta.validation.Valid;
@@ -7,9 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
-// @RequestMapping("/specialization")
+ @RequestMapping("/specialization")
 public class SpecializationController {
     private final SpecializationService specializationService;
 
@@ -24,6 +26,11 @@ public class SpecializationController {
                         specializationService.addSpecialization(specialization)))
                 .build();
     }
-}
+
+    @GetMapping("/specializations/inactive")
+    public List<SpecializationDtoResponse> getInactiveSpecialization(){
+        return specializationService.getInactiveSpecializations();
+    }
+ }
 
 

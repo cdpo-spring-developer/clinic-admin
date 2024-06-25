@@ -4,12 +4,13 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class AddressConverter implements AttributeConverter<Address, String> {
+public class AddressConverter
+        implements AttributeConverter<Address, String> {
 
 
     @Override
     public String convertToDatabaseColumn(Address attribute) {
-        return attribute.getCity() + ":" + attribute.getCity();
+        return attribute.getCity() + ":" + attribute.getClub();
     }
 
     @Override
@@ -17,7 +18,7 @@ public class AddressConverter implements AttributeConverter<Address, String> {
         String[] parts = dbData.split(":");
         Address address = new Address();
         address.setCity(parts[0]);
-        address.setCity(parts[1]);
+        address.setClub(parts[1]);
         return address;
     }
 }
