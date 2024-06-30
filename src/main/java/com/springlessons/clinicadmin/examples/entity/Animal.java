@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity // Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
+//@Entity // Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
 @Table(name = "animal")
 public class Animal /*extends AutoIncrementIdentity*/ {
     @Id

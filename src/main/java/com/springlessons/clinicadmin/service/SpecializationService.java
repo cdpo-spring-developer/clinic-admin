@@ -2,6 +2,7 @@ package com.springlessons.clinicadmin.service;
 
 import com.springlessons.clinicadmin.dto.SpecializationDtoResponse;
 import com.springlessons.clinicadmin.entity.Specialization;
+import com.springlessons.clinicadmin.exception.AdminException;
 import com.springlessons.clinicadmin.repository.SpecializationRepository;
 import org.springframework.boot.actuate.endpoint.web.Link;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,10 @@ public class SpecializationService {
         this.specializationRepository = specializationRepository;
     }
 
-    public int addSpecialization(Specialization specialization){
+    public int addSpecialization(Specialization specialization) throws AdminException {
+        if (specializationRepository.existsByCode(specialization.getCode())){
+            throw new AdminException("Специализация с таким кодом уже существует. " + specialization.getCode());
+        }
         return specializationRepository.save(specialization).getId();
     }
 
@@ -31,7 +35,7 @@ public class SpecializationService {
         return null;
     }
 
-    public List<Specialization> getSpecialization() {
+    public List<Specialization> getSpecializations() {
         Specialization specialization01 = new Specialization();
         specialization01.setId(1);
         specialization01.setName("Невролог");

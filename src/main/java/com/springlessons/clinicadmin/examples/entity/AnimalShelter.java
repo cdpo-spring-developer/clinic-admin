@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Getter
 // Обязательная аннотация для того, чтобы с классом была ассоциирована таблица в БД
-@Entity
+//@Entity
 // Необязательная аннотация, позволяющая указать имя таблицы, описать индексы
 @Table(name = "shelter")
 public class AnimalShelter /*extends AutoIncrementIdentity*/ {

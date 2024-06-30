@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление специализации</title>
+</head>
+<body>
+<span th:if="${param.id}" th:text="${'Добавлена специализация c id =' + param.id}"></span>
+<span th:if="${error}" th:text="${error}"></span>
+
+<form method="post" th:action="@{/specialization}" th:object="${specialization}">
+    <div>
+        <label>Введите название специализации
+            <input type="text" th:field="*{name}">
+            <span th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}">
+        </span>
+        </label>
+    </div>
+    <div>
+        <label>Введите символьный код специализации
+            <input type="text" th:field="*{code}">
+            <span th:if="${#fields.hasErrors('code')}"
+                  th:errors="*{code}">
+        </span>
+        </label>
+    </div>
+    <div>
+        <label>Описание специализации
+            <textarea th:field="*{description}"></textarea>
+            <span th:if="${#fields.hasErrors('description')}"
+                  th:errors="*{description}">
+        </span>
+        </label>
+    </div>
+    <input type="submit" value="Сохранить">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>500 Page</title>
+</head>
+<body>
+<h1>Проблема на сервере!</h1>
+<div>
+    <div>
+        <span><strong>Статус</strong></span>
+        <span th:text="${status}"></span>
+    </div>
+    <div>
+        <span><strong>Ошибка</strong></span>
+        <span th:text="${error}"></span>
+    </div>
+</div>
+</body>
+</html>

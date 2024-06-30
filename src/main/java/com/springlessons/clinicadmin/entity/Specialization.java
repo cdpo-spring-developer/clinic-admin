@@ -22,7 +22,8 @@ import java.time.LocalDateTime;
 
 
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "specialization")
 public class Specialization {
@@ -31,15 +32,18 @@ public class Specialization {
     private int id;
 
     @NotNull
-    @Size(min = 3)
+    @Size(min = 3, max = 100)
     @JsonProperty("specialization_name")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
+    @Size(min = 3, max = 100)
     @JsonProperty("specialization_code")
     @Column(name = "code_lat", nullable = false, unique = true)
     private String code;
 
+    @Size(min = 10, max = 1000)
     @Column(name = "description", length = 3000)
     private String description;
 
