@@ -1,3 +1,6 @@
 databaseChangeLog:
   - includeAll:
       path: db/changelog/2024/06/
+
+  - includeAll:
+      path: db/changelog/2024/07/
