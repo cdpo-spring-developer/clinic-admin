@@ -31,29 +31,30 @@ public class SendExample {
     public SendExample(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
-    public void send(){
-        // interface MailSender
-        // class MailSenderIml
-        // SimpleMailMessage
-        // MimeMessageHelper
+    public void send() throws MessagingException {
+        // interface MailSender | class MailSenderIml
+        // SimpleMailMessage | MimeMessageHelper
 
+        // письмо без вложений
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("admin@yandex.ru");
         mailMessage.setTo("user@yandex.ru");
         mailMessage.setSubject("Тема письма");
         mailMessage.setText("Текст письма");
-        javaMailSender.send(mailMessage);
+        javaMailSender.send(mailMessage); // отправка
 
+        // письмо с вложениями
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        mimeMessage.setFrom("admin@yandex.ru");
+        // ...
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
-        FileSystemResource resource = new FileSystemResource("");
+        FileSystemResource resource = new FileSystemResource("путь к файлу");
         try {
-            helper.addAttachment("", resource);
+            helper.addAttachment("filename_in_mail", resource);
         } catch (MessagingException e) {
             log.error("Файл прикрепить не удалось", e);
         }
-
-        javaMailSender.send(mimeMessage);
+        javaMailSender.send(mimeMessage); // отправка
     }
 }

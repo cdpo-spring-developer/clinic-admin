@@ -24,7 +24,7 @@ POST: {course_id: 12, name: JJD}
 
 PUT: {course_id: 12, enable: false}
 
-PATCH: /course/{courseId}
+PATCH: /course/12
        {enable: false}
 
 DELETE: X

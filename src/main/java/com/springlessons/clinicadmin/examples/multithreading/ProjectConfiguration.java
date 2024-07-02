@@ -11,7 +11,8 @@ public class ProjectConfiguration {
 
     @Bean("xxx-executor")
     public Executor orderExecutor(){
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        ThreadPoolTaskExecutor executor =
+                new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(5);
         executor.setQueueCapacity(20);
