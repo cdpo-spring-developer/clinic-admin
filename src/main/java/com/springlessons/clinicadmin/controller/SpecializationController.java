@@ -7,6 +7,7 @@ import com.springlessons.clinicadmin.exception.AdminException;
 import com.springlessons.clinicadmin.service.SpecializationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,7 @@ public class SpecializationController {
      * в запросе передается идентификатор добавленной специализации
      * В случае неудачи возвращает текущую страницу с информацией об ошибке
      */
+    @Secured({"ROLE_MODERATOR", "ROLE_CONT_MANAGER"})
     @PostMapping
     public String addSpecialization(@Valid Specialization specialization,
                                     BindingResult bindingResult,

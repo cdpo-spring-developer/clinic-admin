@@ -5,6 +5,7 @@ import com.springlessons.clinicadmin.entity.Specialization;
 import com.springlessons.clinicadmin.service.DoctorService;
 import com.springlessons.clinicadmin.service.SpecializationService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +43,7 @@ public class DoctorController {
      * в запросе передается идентификатор добавленного врача
      * В случае неудачи возвращает текущую страницу с информацией об ошибке
      */
+    @Secured({"ROLE_CONT_MANAGER", "ROLE_MODERATOR"})
     @PostMapping("/doctor")
     public String addDoctor(@Valid Doctor doctor, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "doctor/doctor-add-form";
