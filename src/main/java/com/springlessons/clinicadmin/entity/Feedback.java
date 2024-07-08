@@ -1,6 +1,8 @@
 package com.springlessons.clinicadmin.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -19,4 +21,13 @@ public class Feedback {
     private Patient patient;
 
     private LocalDateTime createdAt;
+
+    @NotNull
+    @NotEmpty
+    private String text;
+
+    @Column(name = "is_active",
+            columnDefinition = "BOOLEAN DEFAULT true",
+            insertable = false)
+    boolean isActive;
 }
